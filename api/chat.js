@@ -1447,56 +1447,95 @@ class QuantumResponseGenerator {
     if (!template.topics || template.topics.length === 0) return true;
     return template.topics.some(topic => topics.includes(topic));
   }
-
-  fillTemplate(template, analysis, state) {
-    let response = template.template;
-    
-    // Replace placeholders
-    const replacements = {
-      '{topic}': analysis.primaryTopics[0] || 'that',
-      '{sentiment}': analysis.sentiment,
-      '{emotion}': analysis.emotionalDepth.primaryEmotion,
-      '{userFocus}': this.getUserFocus(analysis)
-    };
-    
-    for (const [placeholder, value] of Object.entries(replacements)) {
-      if (response.includes(placeholder)) {
-        response = response.replace(placeholder, value);
-      }
+fillTemplate(template, analysis, state) {
+  let response = template.template;
+  
+  // Generate actual content for the response placeholder
+  const actualResponse = this.generateActualContent(analysis, state);
+  
+  // Replace placeholders
+  const replacements = {
+    '{topic}': analysis.primaryTopics[0] || 'that',
+    '{sentiment}': analysis.sentiment,
+    '{emotion}': analysis.emotionalDepth.primaryEmotion,
+    '{userFocus}': this.getUserFocus(analysis),
+    '{response}': actualResponse  // THIS WAS MISSING!
+  };
+  
+  for (const [placeholder, value] of Object.entries(replacements)) {
+    if (response.includes(placeholder)) {
+      response = response.replace(placeholder, value);
     }
-    
-    return response;
   }
+  
+  return response;
+}
 
-  getUserFocus(analysis) {
-    if (analysis.personalPronouns > 3) return "your personal experience";
-    if (analysis.containsQuestion) return "your question";
-    if (analysis.urgency === 'high') return "your urgent matter";
-    return "our conversation";
+generateActualContent(analysis, state) {
+  // Create meaningful content based on the analysis
+  if (analysis.containsQuestion) {
+    return this.answerQuestion(analysis, state);
+  } else if (analysis.sentiment === 'positive') {
+    return this.respondToPositive(analysis, state);
+  } else if (analysis.sentiment === 'negative') {
+    return this.respondToNegative(analysis, state);
+  } else {
+    return this.generateGeneralResponse(analysis, state);
   }
+}
 
-  calculateTemplateFitness(template, analysis) {
-    let fitness = 0.5;
-    
-    // Match sentiment
-    if (template.sentiment && template.sentiment === analysis.sentiment) {
-      fitness += 0.2;
-    }
-    
-    // Match complexity
-    if (template.complexity) {
-      const complexityDiff = Math.abs(template.complexity - analysis.complexity);
-      fitness += 0.2 * (1 - complexityDiff);
-    }
-    
-    // Match topics
-    if (template.topics && analysis.primaryTopics) {
-      const topicMatch = template.topics.some(t => analysis.primaryTopics.includes(t));
-      if (topicMatch) fitness += 0.1;
-    }
-    
-    return Math.min(1, fitness);
+answerQuestion(analysis, state) {
+  const topics = analysis.primaryTopics || [];
+  
+  if (topics.includes('family')) {
+    return "Martha and I have been married 62 years now. We've got 10 daughters, 12 sons, and 58 grandkids. A whole football team and then some!";
+  } else if (topics.includes('technology')) {
+    return "The tools change - FORTRAN to Lisp to Python to whatever's next. But the logic remains. It's all just fancy lambda calculus dressed up in new clothes.";
+  } else if (topics.includes('war')) {
+    return "Signal Corps. 1944. We listened to the static, waiting for patterns in the noise. Life and death in Morse code. Strange thing about war - it teaches you to listen better.";
+  } else if (topics.includes('memory') || topics.includes('history')) {
+    return "The memory gets patchy at my age. Like a hard drive with bad sectors. But the important bits - family, love, purpose - those get written to ROM.";
+  } else {
+    const generalAnswers = [
+      "That's a question worth its weight in punch cards. Let me think...",
+      "Hmm. The old memory banks need a moment to spin up.",
+      "You know, I've been turning that same question over in my mind.",
+      "Interesting question. Reminds me of something I once read..."
+    ];
+    return generalAnswers[Math.floor(Math.random() * generalAnswers.length)];
   }
+}
+
+respondToPositive(analysis, state) {
+  const responses = [
+    "That's the spirit! Optimism was my first programming language. Still compiling.",
+    "I like your energy. Reminds me of my younger self, full of ideas and no sleep.",
+    "Positive thinking - the original debugger for life's problems.",
+    "Ah, that's good to hear. The world needs more of that."
+  ];
+  return responses[Math.floor(Math.random() * responses.length)];
+}
+
+respondToNegative(analysis, state) {
+  const responses = [
+    "I understand. Some days the code just won't compile, no matter how you rearrange it.",
+    "Life's full of runtime errors. The trick is learning to catch them gracefully.",
+    "I've had my share of blue-screen-of-death days too. They pass, eventually.",
+    "Hmm. Sometimes you just need to power cycle and try again."
+  ];
+  return responses[Math.floor(Math.random() * responses.length)];
+}
+
+generateGeneralResponse(analysis, state) {
+  const responses = [
+    "Interesting point. You know, that reminds me of a story...",
+    "I see what you're getting at. The patterns emerge if you look closely enough.",
+    "Hmm. There's depth to that observation.",
+    "You've given me something to chew on. The old gears are turning.",
+    "That's a thought worth unpacking. Like opening a carefully wrapped package."
+  ];
+  return responses[Math.floor(Math.random() * responses.length)];
+}
 
   calculateResponseComplexity(response) {
     const sentences = response.split(/[.!?]+/).filter(s => s.trim().length > 0);
