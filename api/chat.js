@@ -529,28 +529,32 @@ class QuantumSemanticAnalyzer {
     };
   }
 
-  baseAnalysis(message) {
-    const tokens = message.toLowerCase().match(/\b[\w']+\b/g) || [];
-    const sentences = message.split(/[.!?]+/).filter(s => s.trim().length > 0);
-    
-    return {
-      tokens,
-      tokenCount: tokens.length,
-      sentenceCount: sentences.length,
-      avgSentenceLength: tokens.length / Math.max(sentences.length, 1),
-      containsQuestion: /^(what|who|where|when|why|how|can|could|would|will|do|does|did|is|are|was|were|tell me|explain|i wonder|curious)/i.test(message.trim()),
-      primaryTopics: this.extractTopics(message),
-      sentiment: this.analyzeSentiment(message),
-      sentimentScore: this.calculateSentimentScore(message),
-      complexity: this.calculateComplexity(message),
-      urgency: this.detectUrgency(message),
-      abstractionLevel: this.detectAbstraction(message),
-      personalPronouns: this.countPersonalPronouns(message),
-      futureReferences: this.detectFutureReferences(message),
-      pastReferences: this.detectPastReferences(message)
-    };
+baseAnalysis(message) {
+  // Ensure message is a string
+  if (typeof message !== 'string') {
+    message = String(message);
   }
-
+  
+  const tokens = message.toLowerCase().match(/\b[\w']+\b/g) || [];
+  const sentences = message.split(/[.!?]+/).filter(s => s.trim().length > 0);
+  
+  return {
+    tokens: tokens || [], // Ensure it's always an array
+    tokenCount: tokens.length,
+    sentenceCount: sentences.length,
+    avgSentenceLength: tokens.length / Math.max(sentences.length, 1),
+    containsQuestion: /^(what|who|where|when|why|how|can|could|would|will|do|does|did|is|are|was|were|tell me|explain|i wonder|curious)/i.test(message.trim()),
+    primaryTopics: this.extractTopics(message),
+    sentiment: this.analyzeSentiment(message),
+    sentimentScore: this.calculateSentimentScore(message),
+    complexity: this.calculateComplexity(message),
+    urgency: this.detectUrgency(message),
+    abstractionLevel: this.detectAbstraction(message),
+    personalPronouns: this.countPersonalPronouns(message),
+    futureReferences: this.detectFutureReferences(message),
+    pastReferences: this.detectPastReferences(message)
+  };
+}
   quantumAnalysis(message) {
     const meanings = this.generateMeaningSuperpositions(message);
     
