@@ -1055,13 +1055,19 @@ class QuantumSemanticAnalyzer {
   }
 
   calculateSemanticDensity(tokens) {
-    if (!tokens || tokens.length === 0) return 0;
+    // Ensure tokens is an array
+    if (!tokens || !Array.isArray(tokens) || tokens.length === 0) return 0;
     
     // Count unique meaningful words (excluding common words)
-    const stopWords = new Set(['the', 'and', 'but', 'for', 'with', 'that', 'this', 'have', 'was', 'were', 'are', 'is']);
-    const meaningfulWords = tokens.filter(word => 
-      word.length > 3 && !stopWords.has(word)
-    );
+    const stopWords = new Set(['the', 'and', 'but', 'for', 'with', 'that', 'this', 'have', 'was', 'were', 'are', 'is', 'a', 'an', 'in', 'on', 'at', 'to', 'of']);
+    
+    // Filter valid tokens (strings with length > 3, not stop words)
+    const meaningfulWords = tokens
+      .filter(word => typeof word === 'string')
+      .map(word => word.toLowerCase())
+      .filter(word => word.length > 3 && !stopWords.has(word));
+    
+    if (meaningfulWords.length === 0) return 0;
     
     const uniqueWords = new Set(meaningfulWords).size;
     return uniqueWords / Math.max(meaningfulWords.length, 1);
