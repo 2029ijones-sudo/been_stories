@@ -1971,99 +1971,98 @@ generateGeneralResponse(analysis, state) {
     
     return totalTopics > 0 ? overlap / totalTopics : 0.5;
   }
-
-  initializeResponseTemplates() {
-    return {
-      questions: [
-        {
-          id: 'q1',
-          template: "Now that's a question worth its weight in punch cards. {response}",
-          confidence: 0.8,
-          sentiment: 'neutral',
-          complexity: 0.6,
-          topics: ['general']
-        },
-        {
-          id: 'q2',
-          template: "Hmm. Let me dust off the old memory banks. {response}",
-          confidence: 0.7,
-          sentiment: 'contemplative',
-          complexity: 0.5,
-          topics: ['memory', 'history']
-        },
-        {
-          id: 'q3',
-          template: "You know, I've been thinking about that very thing. {response}",
-          confidence: 0.75,
-          sentiment: 'reflective',
-          complexity: 0.7,
-          topics: ['philosophy', 'life']
-        }
-      ],
-      reflections: [
-        {
-          id: 'r1',
-          template: "That reminds me... {response}",
-          confidence: 0.8,
-          sentiment: 'nostalgic',
-          complexity: 0.6,
-          topics: ['memory', 'past']
-        },
-        {
-          id: 'r2',
-          template: "You're speaking my language. {response}",
-          confidence: 0.85,
-          sentiment: 'enthusiastic',
-          complexity: 0.5,
-          topics: ['technology', 'science']
-        },
-        {
-          id: 'r3',
-          template: "Ah, yes. {response}",
-          confidence: 0.7,
-          sentiment: 'approving',
-          complexity: 0.4,
-          topics: ['general']
-        }
-      ],
-      emotional: [
-        {
-          id: 'e1',
-          template: "I feel {emotion} about that too. {response}",
-          confidence: 0.75,
-          emotion: 'curious',
-          complexity: 0.5,
-          topics: ['emotion']
-        },
-        {
-          id: 'e2',
-          template: "That {sentiment} perspective resonates with me. {response}",
-          confidence: 0.7,
-          sentiment: 'positive',
-          complexity: 0.6,
-          topics: ['emotion', 'philosophy']
-        }
-      ],
-      generic: [
-        {
-          id: 'g1',
-          template: "Interesting perspective on {topic}. {response}",
-          confidence: 0.6,
-          sentiment: 'neutral',
-          complexity: 0.5,
-          topics: ['general']
-        },
-        {
-          id: 'g2',
-          template: "Let me tell you something about {topic}. {response}",
-          confidence: 0.7,
-          sentiment: 'instructive',
-          complexity: 0.6,
-          topics: ['general']
-        }
-      ]
-    };
-  }
+initializeResponseTemplates() {
+  return {
+    questions: [
+      {
+        id: 'q1',
+        template: "Now that's a question worth its weight in punch cards. {response}",
+        confidence: 0.8,
+        sentiment: 'neutral',
+        complexity: 0.6,
+        topics: ['general']
+      },
+      {
+        id: 'q2',
+        template: "Hmm. Let me dust off the old memory banks. {response}",
+        confidence: 0.7,
+        sentiment: 'contemplative',
+        complexity: 0.5,
+        topics: ['memory', 'history']
+      },
+      {
+        id: 'q3',
+        template: "You know, I've been thinking about that very thing. {response}",
+        confidence: 0.75,
+        sentiment: 'reflective',
+        complexity: 0.7,
+        topics: ['philosophy', 'life']
+      }
+    ],
+    reflections: [
+      {
+        id: 'r1',
+        template: "That reminds me... {response}",
+        confidence: 0.8,
+        sentiment: 'nostalgic',
+        complexity: 0.6,
+        topics: ['memory', 'past']
+      },
+      {
+        id: 'r2',
+        template: "You're speaking my language. {response}",
+        confidence: 0.85,
+        sentiment: 'enthusiastic',
+        complexity: 0.5,
+        topics: ['technology', 'science']
+      },
+      {
+        id: 'r3',
+        template: "Ah, yes. {response}",
+        confidence: 0.7,
+        sentiment: 'approving',
+        complexity: 0.4,
+        topics: ['general']
+      }
+    ],
+    emotional: [
+      {
+        id: 'e1',
+        template: "I feel {emotion} about that too. {response}",
+        confidence: 0.75,
+        emotion: 'curious',
+        complexity: 0.5,
+        topics: ['emotion']
+      },
+      {
+        id: 'e2',
+        template: "That {sentiment} perspective resonates with me. {response}",
+        confidence: 0.7,
+        sentiment: 'positive',
+        complexity: 0.6,
+        topics: ['emotion', 'philosophy']
+      }
+    ],
+    generic: [
+      {
+        id: 'g1',
+        template: "Interesting perspective on {topic}. {response}",
+        confidence: 0.6,
+        sentiment: 'neutral',
+        complexity: 0.5,
+        topics: ['general']
+      },
+      {
+        id: 'g2',
+        template: "Let me tell you something about {topic}. {response}",
+        confidence: 0.7,
+        sentiment: 'instructive',
+        complexity: 0.6,
+        topics: ['general']
+      }
+    ]
+  };
+}
 
   initializeKnowledgeBase() {
     return {
