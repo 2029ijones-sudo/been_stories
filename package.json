@@ -1,0 +1,35 @@
+{
+  "name": "grands-stories-api",
+  "version": "1.0.0",
+  "description": "Advanced conversational AI API for Grand's Stories - Benn Cortigan",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "node api/index.js",
+    "dev": "nodemon api/index.js",
+    "test": "jest",
+    "setup-db": "node scripts/setup-database.js",
+    "seed-memories": "node scripts/seed-initial-memories.js"
+  },
+  "keywords": [
+    "ai",
+    "conversational",
+    "chatbot",
+    "supabase",
+    "api"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.7",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.7.0",
+    "@types/node": "^20.8.10"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
